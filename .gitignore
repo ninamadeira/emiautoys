@@ -1,0 +1,5 @@
+# eMiauToys — monorepo
+backend/dados/*.sqlite*
+.env
+node_modules
+test-results

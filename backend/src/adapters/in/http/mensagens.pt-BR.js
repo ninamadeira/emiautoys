@@ -1,0 +1,17 @@
+export const MENSAGENS_PT_BR = Object.freeze({
+  VALIDACAO_FALHOU: 'Alguns dados informados são inválidos. Confira os campos e tente novamente.',
+  PRODUTO_NAO_ENCONTRADO: 'Produto não encontrado.',
+  ESTOQUE_INSUFICIENTE: 'Estoque insuficiente para a quantidade solicitada.',
+  PRODUTO_INSEGURO: 'Este produto não pode ser vendido por apresentar risco para os gatos.',
+  EMAIL_JA_CADASTRADO: 'Este e-mail já está cadastrado.',
+  CREDENCIAIS_INVALIDAS: 'E-mail ou senha incorretos.',
+  NAO_AUTORIZADO: 'Faça login para continuar.',
+  CUPOM_INVALIDO: 'Cupom inválido ou expirado.',
+  CARRINHO_VAZIO: 'Seu carrinho está vazio.',
+  PAGAMENTO_RECUSADO: 'Pagamento recusado. Tente outro meio de pagamento.',
+  JSON_INVALIDO: 'O corpo da requisição é inválido.',
+  CORPO_GRANDE_DEMAIS: 'A requisição é grande demais.',
+  ROTA_NAO_ENCONTRADA: 'Recurso não encontrado.',
+  METODO_NAO_PERMITIDO: 'Método não permitido para este recurso.',
+  ERRO_INTERNO: 'Ocorreu um erro inesperado. Tente novamente mais tarde.',
+});
