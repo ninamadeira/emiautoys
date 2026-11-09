@@ -12,6 +12,12 @@ const ROTULOS_CAMPOS: Readonly<Record<string, string>> = {
   estado: 'UF',
   quantidade: 'Quantidade',
   codigoCupom: 'Cupom',
+  descricao: 'Descrição',
+  categoria: 'Categoria',
+  precoCentavos: 'Preço',
+  faixaEtariaIndicada: 'Faixa etária',
+  avisoSeguranca: 'Aviso de segurança',
+  urlImagem: 'Imagem',
 };
 
 const MENSAGENS: Readonly<Record<string, string>> = {
@@ -19,6 +25,7 @@ const MENSAGENS: Readonly<Record<string, string>> = {
   NAO_AUTORIZADO: 'Sua sessão expirou. Entre novamente para continuar.',
   EMAIL_JA_CADASTRADO: 'Este e-mail já está cadastrado.',
   PRODUTO_NAO_ENCONTRADO: 'Produto não encontrado.',
+  ACESSO_PROIBIDO: 'Somente administradores podem realizar esta ação.',
   CUPOM_INVALIDO: 'Cupom inválido ou expirado.',
   CARRINHO_VAZIO: 'Seu carrinho está vazio.',
   PAGAMENTO_RECUSADO: 'Pagamento recusado. Tente outro meio de pagamento.',
@@ -39,6 +46,8 @@ function descreverValidacao(detalhes: ErroDaAplicacao['detalhes']): string {
       return 'A quantidade máxima por item é 10.';
     case 'INTEIRO_POSITIVO_OBRIGATORIO':
       return `Informe um número inteiro maior que zero em "${campo}".`;
+    case 'INTEIRO_NAO_NEGATIVO_OBRIGATORIO':
+      return `Informe um número inteiro igual ou maior que zero em "${campo}".`;
     default:
       return `O campo "${campo}" está em um formato inválido.`;
   }

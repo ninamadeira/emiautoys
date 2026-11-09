@@ -57,11 +57,17 @@ async function render(): Promise<{ fixture: ComponentFixture<PaginaFinalizacao>;
   return { fixture, root: fixture.nativeElement as HTMLElement };
 }
 
+function exigir<T>(valor: T | null | undefined, descricao: string): T {
+  if (valor === null || valor === undefined) {
+    throw new Error(`${descricao} não encontrado`);
+  }
+  return valor;
+}
+
 function digitarEm(root: HTMLElement, selector: string, value: string): void {
-  const input = root.querySelector<HTMLInputElement>(selector);
-  expect(input, `campo ${selector}`).not.toBeNull();
-  input!.value = value;
-  input!.dispatchEvent(new Event('input'));
+  const input = exigir(root.querySelector<HTMLInputElement>(selector), `campo ${selector}`);
+  input.value = value;
+  input.dispatchEvent(new Event('input'));
 }
 
 function preencherEndereco(root: HTMLElement): void {
@@ -75,17 +81,16 @@ function preencherEndereco(root: HTMLElement): void {
 
 function clicarBotao(root: HTMLElement, label: string): void {
   const button = [...root.querySelectorAll('button')].find((candidato) => textoVisivel(candidato) === label);
-  expect(button, `button "${label}"`).toBeDefined();
-  button!.click();
+  exigir(button, `botão "${label}"`).click();
 }
 
 function enviarFormulario(root: HTMLElement): void {
-  root.querySelector('form')!.dispatchEvent(new Event('submit', { cancelable: true }));
+  exigir(root.querySelector('form'), 'formulário').dispatchEvent(new Event('submit', { cancelable: true }));
 }
 
 function selecionarMeioPagamento(root: HTMLElement, method: string): void {
   const radio = [...root.querySelectorAll<HTMLInputElement>('input[type="radio"]')].find((item) => item.value === method);
-  radio!.dispatchEvent(new Event('change'));
+  exigir(radio, `meio de pagamento ${method}`).dispatchEvent(new Event('change'));
 }
 
 describe('PaginaFinalizacao', () => {

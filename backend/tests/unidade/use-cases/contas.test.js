@@ -6,7 +6,7 @@ import {
   ErroNaoAutorizado,
   ErroValidacao,
 } from '../../../src/application/domain/erros.js';
-import { montarAmbiente, dadoProduto } from '../../suporte/ambiente.js';
+import { EMAIL_ADMINISTRADOR, montarAmbiente, dadoProduto } from '../../suporte/ambiente.js';
 import { SENHA_VALIDA } from '../../suporte/montadores.js';
 
 const CADASTRO = { nome: 'Maria', email: 'maria@example.com', senha: SENHA_VALIDA };
@@ -46,6 +46,14 @@ describe('contas', () => {
     const sessao = await ambiente.autenticarUsuario.executar({ email: 'maria@example.com', senha: SENHA_VALIDA });
     assert.ok(sessao.token);
     assert.equal(sessao.usuario.email, 'maria@example.com');
+    assert.equal(sessao.usuario.administrador, false);
+  });
+
+  it('indica na sessão se a pessoa é administradora', async () => {
+    const ambiente = montarAmbiente();
+    await ambiente.cadastrarUsuario.executar({ ...CADASTRO, email: EMAIL_ADMINISTRADOR });
+    const sessao = await ambiente.autenticarUsuario.executar({ email: EMAIL_ADMINISTRADOR, senha: SENHA_VALIDA });
+    assert.equal(sessao.usuario.administrador, true);
   });
 
   it('dá o mesmo erro para e-mail desconhecido e senha errada', async () => {

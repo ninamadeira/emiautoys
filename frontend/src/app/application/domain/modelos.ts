@@ -11,6 +11,8 @@ export const CATEGORIAS_PRODUTO: readonly CategoriaProduto[] = [
   'INTERATIVO',
 ];
 
+export const FAIXAS_ETARIAS_GATO: readonly FaixaEtariaGato[] = ['FILHOTE', 'ADULTO', 'IDOSO', 'TODAS_AS_IDADES'];
+
 export const MEIOS_PAGAMENTO: readonly MeioPagamento[] = ['PIX', 'BOLETO', 'CARTAO'];
 
 export interface Produto {
@@ -23,6 +25,13 @@ export interface Produto {
   readonly faixaEtariaIndicada: FaixaEtariaGato;
   readonly avisoSeguranca: string;
   readonly urlImagem: string;
+}
+
+export type DadosProduto = Omit<Produto, 'id'>;
+
+export interface AlteracaoProduto {
+  readonly precoCentavos?: number;
+  readonly estoque?: number;
 }
 
 export interface LinhaPedido {
@@ -43,6 +52,7 @@ export interface Usuario {
   readonly id: string;
   readonly nome: string;
   readonly email: string;
+  readonly administrador?: boolean;
 }
 
 export interface Sessao {

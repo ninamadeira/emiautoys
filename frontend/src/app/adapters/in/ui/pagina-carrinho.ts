@@ -3,13 +3,13 @@ import { RouterLink } from '@angular/router';
 import { formatarBrl } from '../formatadores/formatar-brl';
 import { descreverErro } from '../mensagens/mensagens-de-erro.pt-BR';
 import { EstadoCarrinho } from '../estado/carrinho.estado';
-import { numeroDe } from './eventos-dom';
+import { SeletorQuantidade } from './seletor-quantidade';
 
 const QUANTIDADE_MAXIMA_POR_ITEM = 10;
 
 @Component({
   selector: 'app-pagina-carrinho',
-  imports: [RouterLink],
+  imports: [RouterLink, SeletorQuantidade],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="conteiner">
@@ -27,17 +27,13 @@ const QUANTIDADE_MAXIMA_POR_ITEM = 10;
                 <h2 class="linha-carrinho__nome">{{ linha.nome }}</h2>
                 <p>{{ money(linha.precoUnitarioCentavos) }} cada</p>
               </div>
-              <div class="campo">
-                <label [for]="'qtd-' + linha.produtoId">Quantidade de {{ linha.nome }}</label>
-                <input
-                  [id]="'qtd-' + linha.produtoId"
-                  type="number"
-                  min="1"
-                  [max]="quantidadeMaxima"
-                  [value]="linha.quantidade"
-                  (change)="alterarQuantidade(linha.produtoId, paraNumero($event))"
-                />
-              </div>
+              <app-seletor-quantidade
+                [valor]="linha.quantidade"
+                [rotulo]="linha.nome"
+                [idCampo]="'qtd-' + linha.produtoId"
+                [maximo]="quantidadeMaxima"
+                (alterada)="alterarQuantidade(linha.produtoId, $event)"
+              />
               <p class="preco">{{ money(linha.totalLinhaCentavos) }}</p>
               <button type="button" class="botao botao-secundario" (click)="remove(linha.produtoId)">
                 Remover <span class="visualmente-oculto">{{ linha.nome }} do carrinho</span>
@@ -57,7 +53,6 @@ export class PaginaCarrinho implements OnInit {
   protected readonly quantidadeMaxima = QUANTIDADE_MAXIMA_POR_ITEM;
   protected readonly erro = signal('');
   protected readonly money = formatarBrl;
-  protected readonly paraNumero = numeroDe;
 
   async ngOnInit(): Promise<void> {
     await this.run(() => this.estadoCarrinho.refresh());

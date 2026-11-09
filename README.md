@@ -11,13 +11,41 @@ emiautoys/
 
 Ambos os projetos seguem a **Arquitetura Hexagonal** (`application` · `adapters` · `config`), descrita em `docs/adr/0001-arquitetura-hexagonal.md`.
 
+## Telas
+
+**Loja** — catálogo com filtro por categoria, idade indicada e aviso de segurança em todos os produtos.
+
+![Loja com o catálogo de brinquedos](docs/imagens/loja.png)
+
+**Produto** — detalhe com estoque e seletor de quantidade (− e +, de 1 até o menor valor entre 10 e o estoque).
+
+![Página do produto com seletor de quantidade](docs/imagens/produto-detalhe.png)
+
+**Carrinho** — quantidade com − e +, preço lido do produto a cada consulta e subtotal.
+
+![Carrinho com o seletor de quantidade](docs/imagens/carrinho.png)
+
+**Finalizar compra** — endereço de entrega, cotação de frete e cupom e escolha do meio de pagamento (simulado).
+
+![Finalizar compra com o endereço de entrega](docs/imagens/finalizar-compra.png)
+
+**Pedido confirmado** — depois do pagamento simulado, o pedido é gravado e o carrinho é esvaziado.
+
+![Pedido confirmado](docs/imagens/pedido-confirmado.png)
+
+**Administração** (só para e-mails listados em `EMAILS_ADMINISTRADORES`, ADR 0007) — cadastro de produto novo e alteração de preço e estoque.
+
+![Administração: formulário de novo produto](docs/imagens/admin-novo-produto.png)
+
+![Administração: lista de produtos com preço e estoque editáveis](docs/imagens/admin-produtos.png)
+
 ## Como rodar
 
 **Back-end** (Node ≥ 22.13, sem dependências de execução):
 
 ```bash
 cd backend
-cp .env.example .env     # ajuste SEGREDO_TOKEN
+cp .env.example .env     # ajuste SEGREDO_TOKEN e EMAILS_ADMINISTRADORES (quem pode cadastrar/alterar produtos)
 npm start                # http://127.0.0.1:3000  (catálogo e cupons de exemplo são criados na 1ª execução)
 npm test                 # testes + cobertura mínima de 80%
 ```
@@ -43,12 +71,13 @@ Cupons de exemplo: `MIAU10` (10%) e `BEMVINDO` (5%). Para simular recusa no cart
 
 | Item | Estado |
 |------|--------|
-| Back-end: 132 testes (unidade, contrato, integração, E2E da API, arquitetura) | ✅ passando, cobertura de linhas 98,6% |
-| Front-end: casos de uso, validações e regra de dependência (25 testes) | ✅ passando; `tsc --strict` limpo na camada `application` |
+| Back-end: 144 testes (unidade, contrato, integração, E2E da API, arquitetura) | ✅ passando, cobertura de linhas 98,65% (`npm test`) |
+| Front-end: casos de uso, validações e regra de dependência (32 testes: 25 de aplicação, com a administração de produtos, e 7 de arquitetura) | ✅ passando; `tsc --strict` limpo na camada `application` |
 | Front-end: componentes Angular, rotas, HTTP, estilos | ✅ compilam e rodam no navegador (verificado pela execução dos testes abaixo) |
-| Testes de componente do carrinho e do checkout (16 testes, `npm run test:componentes`) | ✅ passando |
+| Testes de componente: carrinho, checkout e seletor de quantidade (21 testes, `npm run test:componentes`) | ✅ passando |
 | E2E de interface com Playwright (11 testes, `npm run test:e2e`) | ✅ passando, incluindo a jornada de compra, a exclusão de conta e a tela de 320 px |
-| ESLint, Prettier, dependency-cruiser | ⚠️ configurados, **ainda não executados** (`npm run lint`, `npm run format:check`, `npm run arquitetura`) |
+| ESLint e dependency-cruiser (back-end e front-end) | ✅ sem erros (`npm run lint`, `npm run arquitetura`); o lint do back-end tem 5 avisos de números mágicos |
+| Prettier (`npm run format:check`) | ⚠️ aponta arquivos fora do padrão de formatação; não foi aplicado |
 | Contraste WCAG AA da paleta | ✅ verificado por cálculo (todos os pares ≥ 4,5:1) |
 | Lighthouse (LCP ≤ 2,5 s, Performance ≥ 90) | ❌ não medido |
 

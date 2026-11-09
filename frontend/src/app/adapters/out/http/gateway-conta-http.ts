@@ -10,6 +10,6 @@ export class GatewayContaHttp extends GatewayConta {
   private readonly urlBase = inject(URL_BASE_API);
 
   async excluirConta(): Promise<void> {
-    await enviarRequisicao(this.http.delete<void>(`${this.urlBase}/conta`));
+    await enviarRequisicao(this.http.delete<unknown>(`${this.urlBase}/conta`));
   }
 }

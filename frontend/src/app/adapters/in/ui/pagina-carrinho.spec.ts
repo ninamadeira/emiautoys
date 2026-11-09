@@ -56,11 +56,17 @@ async function render(): Promise<{ fixture: ComponentFixture<PaginaCarrinho>; ro
   return { fixture, root: fixture.nativeElement as HTMLElement };
 }
 
+function exigir<T>(valor: T | null | undefined, descricao: string): T {
+  if (valor === null || valor === undefined) {
+    throw new Error(`${descricao} não encontrado`);
+  }
+  return valor;
+}
+
 function alterarCampoQuantidade(root: HTMLElement, produtoId: string, value: string): void {
-  const input = root.querySelector<HTMLInputElement>(`#qtd-${produtoId}`);
-  expect(input).not.toBeNull();
-  input!.value = value;
-  input!.dispatchEvent(new Event('change'));
+  const input = exigir(root.querySelector<HTMLInputElement>(`#qtd-${produtoId}`), `campo #qtd-${produtoId}`);
+  input.value = value;
+  input.dispatchEvent(new Event('change'));
 }
 
 describe('PaginaCarrinho', () => {
@@ -105,7 +111,7 @@ describe('PaginaCarrinho', () => {
     const casosDeUso = configure(CARRINHO_COM_VARINHA);
     const { fixture, root } = await render();
     const botaoRemover = [...root.querySelectorAll('button')].find((button) => textoVisivel(button).startsWith('Remover'));
-    botaoRemover!.click();
+    exigir(botaoRemover, 'botão Remover').click();
     await estabilizar(fixture);
     expect(casosDeUso.removerDoCarrinho.executar).toHaveBeenCalledWith('p1');
     expect(textoVisivel(root)).toContain('Seu carrinho está vazio');

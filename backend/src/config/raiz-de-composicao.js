@@ -4,6 +4,8 @@ import { FinalizarPedido } from '../application/use-cases/finalizar-pedido.js';
 import { ExcluirConta } from '../application/use-cases/excluir-conta.js';
 import { ObterCarrinho } from '../application/use-cases/obter-carrinho.js';
 import { ObterPedidos } from '../application/use-cases/obter-pedidos.js';
+import { CadastrarProduto } from '../application/use-cases/cadastrar-produto.js';
+import { AlterarProduto } from '../application/use-cases/alterar-produto.js';
 import { ObterProduto } from '../application/use-cases/obter-produto.js';
 import { ListarProdutos } from '../application/use-cases/listar-produtos.js';
 import { CotarPedido } from '../application/use-cases/cotar-pedido.js';
@@ -78,7 +80,7 @@ function montarAdaptadoresSaida({ configuracao, banco }) {
   return adaptadores;
 }
 
-function montarCasosDeUso(adaptadores) {
+function montarCasosDeUso(adaptadores, { emailsAdministradores = [] } = {}) {
   const obterCarrinho = new ObterCarrinho(adaptadores);
   const cotarPedido = new CotarPedido(adaptadores);
   return {
@@ -89,8 +91,10 @@ function montarCasosDeUso(adaptadores) {
     removerItemDoCarrinho: new RemoverItemDoCarrinho({ ...adaptadores, obterCarrinho }),
     listarProdutos: new ListarProdutos(adaptadores),
     obterProduto: new ObterProduto(adaptadores),
+    cadastrarProduto: new CadastrarProduto({ ...adaptadores, emailsAdministradores }),
+    alterarProduto: new AlterarProduto({ ...adaptadores, emailsAdministradores }),
     cadastrarUsuario: new CadastrarUsuario(adaptadores),
-    autenticarUsuario: new AutenticarUsuario(adaptadores),
+    autenticarUsuario: new AutenticarUsuario({ ...adaptadores, emailsAdministradores }),
     verificarSessao: new VerificarSessao(adaptadores),
     excluirConta: new ExcluirConta(adaptadores),
     obterPedidos: new ObterPedidos(adaptadores),
@@ -115,7 +119,7 @@ function fecharServidor(servidor) {
 export async function montarAplicacao(configuracao, { logger = new RegistradorStdout() } = {}) {
   const banco = abrirBanco({ nomeArquivo: configuracao.arquivoBanco });
   const adaptadores = montarAdaptadoresSaida({ configuracao, banco });
-  const casosDeUso = montarCasosDeUso(adaptadores);
+  const casosDeUso = montarCasosDeUso(adaptadores, configuracao);
   if (configuracao.carregarCatalogoInicial) {
     await carregarCatalogoInicial(adaptadores);
   }

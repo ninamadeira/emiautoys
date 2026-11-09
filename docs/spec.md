@@ -18,6 +18,7 @@ Loja online para pequenos comércios que vende brinquedos para gatos (varinhas, 
 - **Frete:** tarifa por região do CEP (primeiro dígito); **grátis** quando o subtotal já com desconto atinge R$ 150,00.
 - **Pedido:** `total = subtotal − desconto + frete`. Estoque é reservado de forma atômica antes do pagamento e devolvido se o pagamento for recusado.
 - **Pagamento:** Pix, boleto ou cartão, sempre **simulado**. Nenhum dado de cartão é coletado; o cartão usa um token simulado (`tok_recusado` força recusa).
+- **Administração de produtos:** apenas contas cujo e-mail esteja em `EMAILS_ADMINISTRADORES` (lista separada por vírgulas) podem cadastrar produtos e alterar seus dados, inclusive o preço (em centavos inteiros positivos). Quem não é administrador recebe `ACESSO_PROIBIDO` (403). As mesmas validações de `criarProduto` valem para o cadastro e a alteração. `POST /api/autenticacao/entrar` devolve `usuario.administrador` (verdadeiro/falso) e o front-end mostra a página **Administração** (`/administracao`) só a quem é administrador.
 - **Conta:** senha com 8+ caracteres, com letras e números; armazenada somente como hash.
 
 ## API (rotas em português — ADR 0006)
@@ -26,6 +27,8 @@ Loja online para pequenos comércios que vende brinquedos para gatos (varinhas, 
 |--------|------|:---:|
 | GET | `/api/saude` | — |
 | GET | `/api/produtos?categoria=` · `/api/produtos/:produtoId` | — |
+| POST | `/api/produtos` | ✔ (administrador) |
+| PUT | `/api/produtos/:produtoId` | ✔ (administrador) |
 | POST | `/api/autenticacao/cadastrar` · `/api/autenticacao/entrar` | — |
 | GET | `/api/carrinho` | ✔ |
 | POST | `/api/carrinho/itens` | ✔ |

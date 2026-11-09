@@ -1,0 +1,51 @@
+
+> emiautoys-frontend@0.1.0 test:aplicacao
+> tsx --test "tests/application/**/*.test.ts"
+
+▶ dinheiro
+  ✔ converte reais digitados em centavos inteiros (1.0844ms)
+  ✔ recusa valores que não são reais (0.1686ms)
+  ✔ mostra centavos em reais e trata campo vazio como NaN (0.2066ms)
+✔ dinheiro (2.5485ms)
+▶ casos de uso de administração de produtos
+  ✔ cadastra o produto e usa a imagem padrão quando nenhuma é informada (0.3063ms)
+  ✔ valida os campos antes de chamar o servidor (0.3631ms)
+  ✔ altera preço e estoque pelo gateway (1.0338ms)
+  ✔ recusa preço e estoque inválidos sem chamar o servidor (0.3342ms)
+✔ casos de uso de administração de produtos (2.4404ms)
+▶ casos de uso do catálogo
+  ✔ consulta todos os produtos ou uma categoria (0.9816ms)
+  ✔ obtém os detalhes do produto e propaga o não encontrado (0.3544ms)
+✔ casos de uso do catálogo (2.1961ms)
+▶ casos de uso da sessão
+  ✔ entra e persiste a sessão (0.3473ms)
+  ✔ não persiste nada quando a entrada falha (0.178ms)
+  ✔ valida o e-mail antes de chamar o servidor (0.1541ms)
+  ✔ restaura e limpa a sessão (0.122ms)
+  ✔ cadastra uma conta somente com senha forte (0.2131ms)
+  ✔ exclui a conta e limpa a sessão local (0.1824ms)
+✔ casos de uso da sessão (1.5272ms)
+▶ casos de uso do carrinho
+  ✔ delega adicionar, alterar e remover ao gateway (0.3457ms)
+  ✔ rejeita quantidades inválidas sem chamar o servidor (0.2693ms)
+✔ casos de uso do carrinho (0.752ms)
+▶ casos de uso da finalização
+  ✔ cota com CEP normalizado e cupom sem espaços nas pontas (0.3776ms)
+  ✔ rejeita CEP inválido sem chamar o servidor (0.1706ms)
+  ✔ realiza o pedido com token de cartão simulado e nunca envia dados do cartão (0.8086ms)
+  ✔ não envia token para PIX (0.0687ms)
+  ✔ rejeita endereços incompletos (0.0861ms)
+✔ casos de uso da finalização (1.6468ms)
+▶ validação no cliente
+  ✔ valida e-mails (0.7076ms)
+  ✔ valida a força da senha como o servidor (0.4459ms)
+  ✔ normaliza CEPs e devolve undefined para os inválidos (0.3845ms)
+✔ validação no cliente (2.9731ms)
+ℹ tests 25
+ℹ suites 7
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 182.4993

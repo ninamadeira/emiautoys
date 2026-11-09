@@ -5,11 +5,13 @@ export class AutenticarUsuario {
   #repositorioUsuario;
   #geradorHashSenha;
   #emissorToken;
+  #emailsAdministradores;
 
-  constructor({ repositorioUsuario, geradorHashSenha, emissorToken }) {
+  constructor({ repositorioUsuario, geradorHashSenha, emissorToken, emailsAdministradores = [] }) {
     this.#repositorioUsuario = repositorioUsuario;
     this.#geradorHashSenha = geradorHashSenha;
     this.#emissorToken = emissorToken;
+    this.#emailsAdministradores = emailsAdministradores;
   }
 
   async executar({ email, senha }) {
@@ -24,6 +26,7 @@ export class AutenticarUsuario {
     if (!senhaEstaCorreta) {
       throw new ErroCredenciaisInvalidas();
     }
-    return { token: this.#emissorToken.emitir(usuario.id), usuario: paraUsuarioPublico(usuario) };
+    const administrador = this.#emailsAdministradores.includes(usuario.email);
+    return { token: this.#emissorToken.emitir(usuario.id), usuario: { ...paraUsuarioPublico(usuario), administrador } };
   }
 }

@@ -12,6 +12,8 @@ import { GatewayFinalizacao } from '../application/ports/out/gateway-finalizacao
 import { GatewayProduto } from '../application/ports/out/gateway-produto';
 import { ArmazenamentoSessao } from '../application/ports/out/armazenamento-sessao';
 import { AdicionarAoCarrinho } from '../application/use-cases/adicionar-ao-carrinho';
+import { CadastrarProduto } from '../application/use-cases/cadastrar-produto';
+import { AlterarProduto } from '../application/use-cases/alterar-produto';
 import { ConsultarCatalogo } from '../application/use-cases/consultar-catalogo';
 import { AlterarQuantidadeItemCarrinho } from '../application/use-cases/alterar-quantidade-item-carrinho';
 import { ExcluirConta } from '../application/use-cases/excluir-conta';
@@ -39,6 +41,8 @@ const PROVEDORES_PORTAS: Provider[] = [
 const PROVEDORES_CASOS_DE_USO: Provider[] = [
   { provide: ConsultarCatalogo, useFactory: () => new ConsultarCatalogo(inject(GatewayProduto)) },
   { provide: ObterDetalhesProduto, useFactory: () => new ObterDetalhesProduto(inject(GatewayProduto)) },
+  { provide: CadastrarProduto, useFactory: () => new CadastrarProduto(inject(GatewayProduto)) },
+  { provide: AlterarProduto, useFactory: () => new AlterarProduto(inject(GatewayProduto)) },
   { provide: Entrar, useFactory: () => new Entrar(inject(GatewayAutenticacao), inject(ArmazenamentoSessao)) },
   { provide: CadastrarConta, useFactory: () => new CadastrarConta(inject(GatewayAutenticacao)) },
   { provide: RestaurarSessao, useFactory: () => new RestaurarSessao(inject(ArmazenamentoSessao)) },

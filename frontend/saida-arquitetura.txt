@@ -1,0 +1,21 @@
+
+> emiautoys-frontend@0.1.0 test:arquitetura
+> tsx --test "tests/arquitetura/**/*.test.ts"
+
+▶ regra de dependência hexagonal no front-end (Artigo XII)
+  ✔ encontra os arquivos-fonte a verificar (0.602ms)
+  ✔ a aplicação não depende de framework: sem Angular, RxJS ou qualquer importação externa (2.1466ms)
+  ✔ o domínio não importa nada fora do domínio (1.0676ms)
+  ✔ casos de uso dependem apenas do domínio e das ports (1.3921ms)
+  ✔ a aplicação nunca importa adapters nem configuração (1.4089ms)
+  ✔ adapters de entrada e de saída não importam um ao outro nem a configuração (2.7839ms)
+  ✔ mantém arquivos coesos (menos de 200 linhas) e sem console.log (5.7066ms)
+✔ regra de dependência hexagonal no front-end (Artigo XII) (16.2499ms)
+ℹ tests 7
+ℹ suites 1
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.8066

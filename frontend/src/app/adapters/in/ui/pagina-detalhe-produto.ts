@@ -5,14 +5,14 @@ import { ObterDetalhesProduto } from '../../../application/use-cases/obter-detal
 import { formatarBrl } from '../formatadores/formatar-brl';
 import { descreverErro } from '../mensagens/mensagens-de-erro.pt-BR';
 import { ROTULOS_FAIXA_ETARIA, ROTULOS_CATEGORIA } from '../mensagens/rotulos.pt-BR';
-import { numeroDe } from './eventos-dom';
+import { SeletorQuantidade } from './seletor-quantidade';
 import { BotaoAdicionarAoCarrinho } from './botao-adicionar-ao-carrinho';
 
 const QUANTIDADE_MAXIMA_POR_ITEM = 10;
 
 @Component({
   selector: 'app-pagina-detalhe-produto',
-  imports: [RouterLink, BotaoAdicionarAoCarrinho],
+  imports: [RouterLink, BotaoAdicionarAoCarrinho, SeletorQuantidade],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="conteiner">
@@ -29,10 +29,14 @@ const QUANTIDADE_MAXIMA_POR_ITEM = 10;
             <p>{{ item.descricao }}</p>
             <p class="nota" role="note"><strong>Aviso de segurança:</strong> {{ item.avisoSeguranca }}</p>
             <p>{{ item.estoque > 0 ? item.estoque + ' unidade(s) em estoque' : 'Produto esgotado' }}</p>
-            <div class="campo">
-              <label for="quantidade">Quantidade</label>
-              <input id="quantidade" type="number" min="1" [max]="quantidadeMaxima" [value]="quantidade()" (change)="quantidade.set(paraNumero($event))" />
-            </div>
+            <app-seletor-quantidade
+              [valor]="quantidade()"
+              [rotulo]="item.nome"
+              idCampo="quantidade"
+              [maximo]="limiteDe(item)"
+              [desabilitado]="item.estoque === 0"
+              (alterada)="quantidade.set($event)"
+            />
             <app-botao-adicionar-ao-carrinho
               [produtoId]="item.id"
               [nomeProduto]="item.nome"
@@ -52,11 +56,9 @@ export class PaginaDetalheProduto implements OnInit {
 
   private readonly obterDetalhesProduto = inject(ObterDetalhesProduto);
 
-  protected readonly quantidadeMaxima = QUANTIDADE_MAXIMA_POR_ITEM;
   protected readonly produto = signal<Produto | undefined>(undefined);
   protected readonly quantidade = signal(1);
   protected readonly erro = signal('');
-  protected readonly paraNumero = numeroDe;
 
   async ngOnInit(): Promise<void> {
     try {
@@ -64,6 +66,10 @@ export class PaginaDetalheProduto implements OnInit {
     } catch (erro) {
       this.erro.set(descreverErro(erro));
     }
+  }
+
+  protected limiteDe(item: Produto): number {
+    return Math.min(QUANTIDADE_MAXIMA_POR_ITEM, item.estoque);
   }
 
   protected rotuloCategoria(item: Produto): string {

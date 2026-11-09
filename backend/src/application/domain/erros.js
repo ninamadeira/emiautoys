@@ -49,6 +49,12 @@ export class ErroNaoAutorizado extends ErroDeDominio {
   }
 }
 
+export class ErroAcessoProibido extends ErroDeDominio {
+  constructor() {
+    super('ACESSO_PROIBIDO');
+  }
+}
+
 export class ErroCupomInvalido extends ErroDeDominio {
   constructor(motivo) {
     super('CUPOM_INVALIDO', { motivo });

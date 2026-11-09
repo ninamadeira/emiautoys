@@ -1,5 +1,5 @@
 import { ErroDaAplicacao } from '../../src/app/application/domain/erro-da-aplicacao';
-import type { Carrinho, Pedido, Produto, Cotacao, Sessao, Usuario } from '../../src/app/application/domain/modelos';
+import type { AlteracaoProduto, Carrinho, DadosProduto, Pedido, Produto, Cotacao, Sessao, Usuario } from '../../src/app/application/domain/modelos';
 import { GatewayConta } from '../../src/app/application/ports/out/gateway-conta';
 import { GatewayAutenticacao, type Credenciais, type Cadastro } from '../../src/app/application/ports/out/gateway-autenticacao';
 import { GatewayCarrinho } from '../../src/app/application/ports/out/gateway-carrinho';
@@ -31,6 +31,16 @@ export class GatewayProdutoFalso extends GatewayProduto {
   async obter(produtoId: string): Promise<Produto> {
     if (produtoId !== PRODUTO.id) throw new ErroDaAplicacao('PRODUTO_NAO_ENCONTRADO');
     return PRODUTO;
+  }
+  cadastrados: DadosProduto[] = [];
+  alteracoes: { produtoId: string; alteracao: AlteracaoProduto }[] = [];
+  async cadastrar(dados: DadosProduto): Promise<Produto> {
+    this.cadastrados.push(dados);
+    return { ...dados, id: 'novo' };
+  }
+  async alterar(produtoId: string, alteracao: AlteracaoProduto): Promise<Produto> {
+    this.alteracoes.push({ produtoId, alteracao });
+    return { ...PRODUTO, ...alteracao };
   }
 }
 

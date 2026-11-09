@@ -157,7 +157,7 @@ Mensagens de erro (`mensagens/mensagens-de-erro.pt-BR.ts`): `ESTOQUE_INSUFICIENT
 
 - **Produto removido do catálogo:** `ObterCarrinho` falha com `PRODUTO_NAO_ENCONTRADO` e o carrinho inteiro fica ilegível. Hoje o sistema não tem operação para apagar produtos, então não é alcançável, mas precisará de tratamento (ignorar a linha e avisar) quando existir.
 - **Concorrência:** adicionar é "ler, alterar, gravar". Duas requisições simultâneas da mesma pessoa podem se sobrescrever. O estoque em si está protegido (reserva atômica no checkout).
-- **Preço não é congelado no carrinho:** se o preço mudar, o carrinho mostra o novo valor. O pedido, sim, guarda os preços do momento da compra.
+- **Preço não é congelado no carrinho:** se o preço mudar (um administrador pode alterá-lo por `PUT /api/produtos/:produtoId`), o carrinho mostra o novo valor, sem aviso à pessoa. O pedido, sim, guarda os preços do momento da compra.
 - **Estoque não é reservado ao adicionar ao carrinho**, apenas na finalização da compra.
 
 ## Onde estão os testes

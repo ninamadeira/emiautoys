@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { guardaAdministrador } from '../adapters/in/guardas/administrador.guard';
 import { guardaAutenticacao } from '../adapters/in/guardas/autenticacao.guard';
 
 /** URLs públicas em português (SEO/usabilidade); identificadores também em português (ADR 0006). */
@@ -41,6 +42,12 @@ export const rotas: Routes = [
     title: 'Minha conta — eMiauToys',
     canActivate: [guardaAutenticacao],
     loadComponent: () => import('../adapters/in/ui/pagina-conta').then((module) => module.PaginaConta),
+  },
+  {
+    path: 'administracao',
+    title: 'Administração — eMiauToys',
+    canActivate: [guardaAdministrador],
+    loadComponent: () => import('../adapters/in/ui/pagina-administracao').then((module) => module.PaginaAdministracao),
   },
   {
     path: '**',

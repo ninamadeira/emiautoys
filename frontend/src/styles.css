@@ -426,7 +426,8 @@ input[type='number'] {
   }
 
   .linha-carrinho {
-    grid-template-columns: 1fr 8rem auto auto;
+    grid-template-columns: 1fr auto auto auto;
+    gap: var(--espaco-3);
   }
 
   .detalhe {
@@ -445,5 +446,71 @@ input[type='number'] {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* Seletor de quantidade (− e +) */
+.seletor-quantidade {
+  display: inline-grid;
+  grid-template-columns: 2.75rem 4rem 2.75rem;
+  align-items: stretch;
+  margin-bottom: var(--espaco-2);
+}
+
+.seletor-quantidade input[type='number'] {
+  width: 100%;
+  padding-inline: var(--espaco-1);
+  border-radius: 0;
+  text-align: center;
+  appearance: textfield;
+}
+
+.seletor-quantidade__botao {
+  min-height: 2.75rem;
+  border: 2px solid var(--cor-borda);
+  background: var(--cor-selo-fundo);
+  color: var(--cor-selo-texto);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seletor-quantidade__botao:first-of-type {
+  border-radius: var(--raio) 0 0 var(--raio);
+}
+
+.seletor-quantidade__botao:last-of-type {
+  border-radius: 0 var(--raio) var(--raio) 0;
+}
+
+.seletor-quantidade__botao:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Administração de produtos */
+.linha-administracao {
+  display: grid;
+  gap: var(--espaco-2);
+  align-items: end;
+}
+
+select {
+  min-height: 2.75rem;
+  padding: var(--espaco-2) var(--espaco-3);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio);
+  font: inherit;
+  font-weight: 600;
+}
+
+@media (min-width: 40rem) {
+  .linha-administracao {
+    grid-template-columns: 1fr 9rem 7rem auto;
+  }
+
+  .linha-administracao .situacao {
+    grid-column: 1 / -1;
   }
 }

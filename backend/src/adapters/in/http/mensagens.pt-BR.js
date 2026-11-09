@@ -6,6 +6,7 @@ export const MENSAGENS_PT_BR = Object.freeze({
   EMAIL_JA_CADASTRADO: 'Este e-mail já está cadastrado.',
   CREDENCIAIS_INVALIDAS: 'E-mail ou senha incorretos.',
   NAO_AUTORIZADO: 'Faça login para continuar.',
+  ACESSO_PROIBIDO: 'Somente administradores podem realizar esta ação.',
   CUPOM_INVALIDO: 'Cupom inválido ou expirado.',
   CARRINHO_VAZIO: 'Seu carrinho está vazio.',
   PAGAMENTO_RECUSADO: 'Pagamento recusado. Tente outro meio de pagamento.',

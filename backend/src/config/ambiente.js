@@ -15,6 +15,13 @@ function resolverSegredoToken(env) {
   return randomBytes(BYTES_SEGREDO_DESENVOLVIMENTO).toString('hex');
 }
 
+function lerEmailsAdministradores(env) {
+  return (env.EMAILS_ADMINISTRADORES ?? '')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 export function carregarConfiguracao(env) {
   const ehProducao = env.NODE_ENV === PRODUCAO;
   return Object.freeze({
@@ -22,6 +29,7 @@ export function carregarConfiguracao(env) {
     arquivoBanco: env.ARQUIVO_BANCO ?? './dados/emiautoys.sqlite',
     segredoToken: resolverSegredoToken(env),
     ttlTokenSegundos: Number(env.TTL_TOKEN_SEGUNDOS ?? TTL_PADRAO_TOKEN_SEGUNDOS),
+    emailsAdministradores: lerEmailsAdministradores(env),
     origemCors: env.ORIGEM_CORS ?? 'http://localhost:4200',
     carregarCatalogoInicial: env.CARREGAR_CATALOGO_INICIAL ? env.CARREGAR_CATALOGO_INICIAL === 'true' : !ehProducao,
   });

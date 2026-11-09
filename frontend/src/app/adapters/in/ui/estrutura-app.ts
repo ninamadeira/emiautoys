@@ -19,6 +19,9 @@ import { EstadoSessao } from '../estado/sessao.estado';
         <a routerLink="/carrinho" routerLinkActive="ativo" [attr.aria-label]="rotuloCarrinho()">
           Carrinho <span class="contagem" aria-hidden="true">{{ carrinho.carrinho().totalUnidades }}</span>
         </a>
+        @if (sessao.usuario()?.administrador) {
+          <a routerLink="/administracao" routerLinkActive="ativo">Administração</a>
+        }
         @if (sessao.estaAutenticado()) {
           <a routerLink="/conta" routerLinkActive="ativo">Minha conta</a>
           <button type="button" class="botao-link" (click)="sair()">Sair</button>
